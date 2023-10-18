@@ -36,7 +36,7 @@ const EditUser = () => {
 
     const editUserDetails = async() => {
         const response = await editUser(id, user);
-        navigate('/all');
+        navigate('/users/all');
     }
 
     const onValueChange = (e) => {
@@ -46,9 +46,9 @@ const EditUser = () => {
 
     return (
         <Container injectFirst>
-            <Typography variant="h4">Edit Information</Typography>
+            <Typography variant="h4">Editar</Typography>
             <FormControl>
-                <InputLabel htmlFor="my-input">Name</InputLabel>
+                <InputLabel htmlFor="my-input">Nombre</InputLabel>
                 <Input onChange={(e) => onValueChange(e)} name='name' value={name} id="my-input" aria-describedby="my-helper-text" />
             </FormControl>
             <FormControl>
@@ -56,15 +56,15 @@ const EditUser = () => {
                 <Input onChange={(e) => onValueChange(e)} name='username' value={username} id="my-input" aria-describedby="my-helper-text" />
             </FormControl>
             <FormControl>
-                <InputLabel htmlFor="my-input">Email</InputLabel>
+                <InputLabel htmlFor="my-input">Correo electronico</InputLabel>
                 <Input onChange={(e) => onValueChange(e)} name='email' value={email} id="my-input" aria-describedby="my-helper-text" />
             </FormControl>
             <FormControl>
-                <InputLabel htmlFor="my-input">Phone</InputLabel>
+                <InputLabel htmlFor="my-input">Telefono</InputLabel>
                 <Input onChange={(e) => onValueChange(e)} name='phone' value={phone} id="my-input" aria-describedby="my-helper-text" />
             </FormControl>
             <FormControl>
-                <Button variant="contained" color="primary" onClick={() => editUserDetails()}>Edit User</Button>
+                <Button variant="contained" color="primary" onClick={() => editUserDetails()}>Editar usuario</Button>
             </FormControl>
         </Container>
     )
