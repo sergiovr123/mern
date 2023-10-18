@@ -22,8 +22,8 @@ const NavBar = () => {
                 <Tabs to="./" exact>Index</Tabs>
                 <Tabs to="all" exact>All Users</Tabs>
                 <Tabs to="add" exact>Add User</Tabs>
-                <Tabs to="allProducts" exact>All Products</Tabs>
-                <Tabs to="addProducts" exact>Add Product</Tabs>
+                <Tabs to="/products/allProducts" exact>Productos</Tabs>
+                <Tabs to="/products/add" exact>Agregar productos</Tabs>
             </Toolbar>
         </Header>
     )

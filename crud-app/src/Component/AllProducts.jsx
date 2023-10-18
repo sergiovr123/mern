@@ -1,6 +1,6 @@
 import react, { useState, useEffect } from 'react';
 import { Table, TableHead, TableCell, Paper, TableRow, TableBody, Button, styled } from '@mui/material'
-import { getUsers, deleteUser } from '../Service/api';
+import { getProducts, deleteProduct } from '../Service/api';
 import { Link } from 'react-router-dom';
 
 const StyledTable = styled(Table)`
@@ -22,21 +22,21 @@ const TRow = styled(TableRow)`
     }
 `;
 
-const AllUsers = () => {
-    const [users, setUsers] = useState([]);
+const AllProducts = () => {
+    const [products, setProducts] = useState([]);
     
     useEffect(() => {
-        getAllUsers();
+        getAllProducts();
     }, []);
 
-    const deleteUserData = async (id) => {
-        await deleteUser(id);
-        getAllUsers();
+    const deleteProductData = async (id) => {
+        await deleteProduct(id);
+        getAllProducts();
     }
 
-    const getAllUsers = async () => {
-        let response = await getUsers();
-        setUsers(response.data);
+    const getAllProducts = async () => {
+        let response = await getProducts();
+        setProducts(response.data);
     }
 
     return (
@@ -44,24 +44,24 @@ const AllUsers = () => {
             <TableHead>
                 <THead>
                     <TableCell>Id</TableCell>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Username</TableCell>
-                    <TableCell>Email</TableCell>
-                    <TableCell>Phone</TableCell>
+                    <TableCell>Nombre</TableCell>
+                    <TableCell>Descripcion</TableCell>
+                    <TableCell>Precio</TableCell>
+                    <TableCell>Cantidad</TableCell>
                     <TableCell></TableCell>
                 </THead>
             </TableHead>
             <TableBody>
-                {users.map((user) => (
-                    <TRow key={user.id}>
-                        <TableCell>{user._id}</TableCell> {/* change it to user.id to use JSON Server */}
-                        <TableCell>{user.name}</TableCell>
-                        <TableCell>{user.username}</TableCell>
-                        <TableCell>{user.email}</TableCell>
-                        <TableCell>{user.phone}</TableCell>
+                {products.map((product) => (
+                    <TRow key={product.id}>
+                        <TableCell>{product._id}</TableCell> {/* change it to user.id to use JSON Server */}
+                        <TableCell>{product.nombre}</TableCell>
+                        <TableCell>{product.descripcion}</TableCell>
+                        <TableCell>{product.precio}</TableCell>
+                        <TableCell>{product.cantidad}</TableCell>
                         <TableCell>
-                            <Button color="primary" variant="contained" style={{marginRight:10}} component={Link} to={`/edit/${user._id}`}>Edit</Button> {/* change it to user.id to use JSON Server */}
-                            <Button color="secondary" variant="contained" onClick={() => deleteUserData(user._id)}>Delete</Button> {/* change it to user.id to use JSON Server */}
+                            <Button color="primary" variant="contained" style={{marginRight:10}} component={Link} to={`/products/edit/${product._id}`}>Editar</Button> {/* change it to user.id to use JSON Server */}
+                            <Button color="secondary" variant="contained" onClick={() => deleteProductData(product._id)}>Borrar</Button> {/* change it to user.id to use JSON Server */}
                         </TableCell>
                     </TRow>
                 ))}
