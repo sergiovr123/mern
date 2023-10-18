@@ -3,10 +3,10 @@ import { getUsers, addUser, getUserById, editUser, deleteUser } from '../control
 
 const router = express.Router();
 
-router.get('/', getUsers);
-router.post('/add', addUser);
-router.get('/:id', getUserById);
-router.put('/:id', editUser);
-router.delete('/:id', deleteUser);
+router.get('/users', getUsers);
+router.post('/users/add', addUser);
+router.get('/users/:id', getUserById);
+router.put('/users/:id', editUser);
+router.delete('/users/:id', deleteUser);
 
 export default router;
