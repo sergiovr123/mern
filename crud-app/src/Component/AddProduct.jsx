@@ -2,6 +2,9 @@ import react, { useState } from 'react';
 import { FormGroup, FormControl, InputLabel, Input, Button, styled, Typography } from '@mui/material';
 import { addProduct } from '../Service/api';
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from "react-cookie";
+import axios from "axios";
+import {toast } from "react-toastify";
 
 const initialValue = {
     nombre: '',
@@ -20,7 +23,25 @@ const Container = styled(FormGroup)`
 const AddProduct = () => {
     const [product, setProduct] = useState(initialValue);
     const { nombre, descripcion, precio, cantidad } = product;
-    
+    const [cookies, removeCookie] = useCookies([]);
+
+    const verifyCookie = async () => {
+        if (!cookies.token) {
+          navigate("/login");
+        }
+        const { data } = await axios.post(
+          "http://localhost:8080",
+          {},
+          { withCredentials: true }
+        );
+        const { status, user } = data;
+        return status
+          ? toast(`Hello ${user}`, {
+              position: "top-right",
+            })
+          : (removeCookie("token"), navigate("/login"));
+      };
+      verifyCookie();
     let navigate = useNavigate();
 
     const onValueChange = (e) => {

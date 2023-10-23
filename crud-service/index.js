@@ -2,9 +2,11 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 import Routes from './server/route.js';
 import PRoutes from './server/productRoute.js';
+import ARoutes from './server/authRoute.js';
 import Connection from './database/db.js';
 
 const app = express();
@@ -17,8 +19,16 @@ dotenv.config();
 // body-parser extracts the entire body portion of an incoming request stream and exposes it on req.body.
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cookieParser());
+app.use(
+    cors({
+        origin: ["http://localhost:3000"],
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        credentials: true,
+    })
+);
 
+app.use('/', ARoutes);
 app.use('/', Routes);
 app.use('/', PRoutes);
 
