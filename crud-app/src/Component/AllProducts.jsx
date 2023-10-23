@@ -1,7 +1,11 @@
 import react, { useState, useEffect } from 'react';
 import { Table, TableHead, TableCell, Paper, TableRow, TableBody, Button, styled } from '@mui/material'
 import { getProducts, deleteProduct } from '../Service/api';
+import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
+import { useCookies } from "react-cookie";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 const StyledTable = styled(Table)`
     width: 90%;
@@ -23,12 +27,36 @@ const TRow = styled(TableRow)`
 `;
 
 const AllProducts = () => {
+    const navigate = useNavigate();
+    const [cookies, removeCookie] = useCookies([]);
+    const [username, setUsername] = useState("");
     const [products, setProducts] = useState([]);
     
     useEffect(() => {
+        const verifyCookie = async () => {
+            if (!cookies.token) {
+              navigate("/login");
+            }
+            const { data } = await axios.post(
+              "http://localhost:8080",
+              {},
+              { withCredentials: true }
+            );
+            const { status, user } = data;
+            setUsername(user);
+            return status
+              ? toast(`Hello ${user}`, {
+                  position: "top-right",
+                })
+              : (removeCookie("token"), navigate("/login"));
+          };
+          verifyCookie();
         getAllProducts();
-    }, []);
-
+    }, [cookies, navigate, removeCookie]);
+    const Logout = () => {
+        removeCookie("token");
+        navigate("/login");
+      };
     const deleteProductData = async (id) => {
         await deleteProduct(id);
         getAllProducts();
@@ -67,6 +95,7 @@ const AllProducts = () => {
                 ))}
             </TableBody>
         </StyledTable>
+        
     )
 }
 
