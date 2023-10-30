@@ -16,7 +16,7 @@ export const addUser = async(request, response, next) => {
     const { name, username, email, password } = request.body;
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-        return response.json({ message: "User already exists" });
+        return response.json({ message: "El usuario ya existe", success: false });
     }
     const user = request.body;
     const newUser = new User(user);
@@ -28,7 +28,7 @@ export const addUser = async(request, response, next) => {
             httpOnly: false,
         });
         next()
-        response.status(201).json({ message: "User signed in successfully", success: true, newUser });
+        response.status(201).json({ message: "Usuario agregado exitosamente", success: true, newUser });
     } catch (error) {
         response.status(409).json({ message: error.message });
     }
@@ -51,9 +51,9 @@ export const editUser = async(request, response) => {
     const editUser = new User(user);
     try {
         await User.updateOne({ _id: request.params.id }, editUser);
-        response.status(201).json(editUser);
+        response.status(201).json({ message: "Usuario editado exitosamente", success: true, editUser });
     } catch (error) {
-        response.status(409).json({ message: error.message });
+        response.status(409).json({ message: error.message, success: false });
     }
 }
 
@@ -61,8 +61,8 @@ export const editUser = async(request, response) => {
 export const deleteUser = async(request, response) => {
     try {
         await User.deleteOne({ _id: request.params.id });
-        response.status(201).json("User deleted Successfully");
+        response.status(201).json({ message: "Usuario eliminado exitosamente", success: true });
     } catch (error) {
-        response.status(409).json({ message: error.message });
+        response.status(409).json({ message: error.message, success: false });
     }
 }

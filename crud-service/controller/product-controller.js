@@ -19,9 +19,9 @@ export const addProduct = async(request, response) => {
     const newProduct = new Product(product);
     try {
         await newProduct.save();
-        response.status(201).json(newProduct);
+        response.status(201).json({ message: "Producto agregado exitosamente", success: true, newProduct });
     } catch (error) {
-        response.status(409).json({ message: error.message });
+        response.status(409).json({ message: error.message, success: false });
     }
 }
 
@@ -31,7 +31,7 @@ export const getProductById = async(request, response) => {
         const product = await Product.findById(request.params.id);
         response.status(200).json(product);
     } catch (error) {
-        response.status(404).json({ message: error.message })
+        response.status(404).json({ message: error.message, success: false })
     }
 }
 
@@ -42,7 +42,7 @@ export const editProduct = async(request, response) => {
     const editProduct = new Product(product);
     try {
         await Product.updateOne({ _id: request.params.id }, editProduct);
-        response.status(201).json(editProduct);
+        response.status(201).json({ message: "Producto editado exitosamente", success: true, editProduct });
     } catch (error) {
         response.status(409).json({ message: error.message });
     }
@@ -52,8 +52,8 @@ export const editProduct = async(request, response) => {
 export const deleteProduct = async(request, response) => {
     try {
         await Product.deleteOne({ _id: request.params.id });
-        response.status(201).json("Product deleted Successfully");
+        response.status(201).json({ message: "Producto eliminado exitosamente", success: true, editProduct });
     } catch (error) {
-        response.status(409).json({ message: error.message });
+        response.status(409).json({ message: error.message, success: false });
     }
 }
